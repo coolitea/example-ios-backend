@@ -16,12 +16,12 @@ get '/' do
 end
 
 post '/create_ephemeral_key' do
-  content_type :json
   authenticate!
   begin
     original_api_version = Stripe.api_version
     Stripe.api_version = params[:api_version]
-    # Create an ephemeral key
+    puts "API Version: " + Stripe.api_version
+    # TODO: create a key
     Stripe.api_version = original_api_version
   rescue Stripe::StripeError => e
     status 402
@@ -29,8 +29,11 @@ post '/create_ephemeral_key' do
   end
 
   status 200
+  content_type :json
   {
-    key: => 'sk_test_5RuiSbuDuzhua8zWiMCG0QT0',
+    customer_id: @customer.id,
+    contents: 'sk_test_5RuiSbuDuzhua8zWiMCG0QT0',
+    expires: Time.now.to_i + 60*5,
   }.to_json
 end
 
