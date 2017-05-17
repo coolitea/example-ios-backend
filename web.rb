@@ -15,7 +15,7 @@ get '/' do
   return "Great, your backend is set up. Now you can configure the Stripe example apps to point here."
 end
 
-post '/create_ephemeral_key' do
+post '/create_customer_key' do
   authenticate!
   begin
     original_api_version = Stripe.api_version
@@ -31,9 +31,14 @@ post '/create_ephemeral_key' do
   status 200
   content_type :json
   {
-    customer_id: @customer.id,
-    contents: 'sk_test_5RuiSbuDuzhua8zWiMCG0QT0',
+    secret: 'sk_test_5RuiSbuDuzhua8zWiMCG0QT0',
     expires: Time.now.to_i + 60*5,
+    associated_objects: [
+        {
+          type: "customer",
+          id: @customer.id
+        }
+    ]
   }.to_json
 end
 
