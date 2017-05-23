@@ -15,7 +15,7 @@ get '/' do
   return "Great, your backend is set up. Now you can configure the Stripe example apps to point here."
 end
 
-post '/create_customer_key' do
+post '/ephemeral_keys' do
   authenticate!
   begin
     # TODO: create a key, set api version
